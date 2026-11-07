@@ -1,0 +1,16 @@
+name: Keepalive Supabase
+
+on:
+  schedule:
+    - cron: '0 12 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar a /health
+        env:
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+        run: |
+          curl -fsS "$SUPABASE_URL/functions/v1/health" -o /dev/null && echo "ok"
